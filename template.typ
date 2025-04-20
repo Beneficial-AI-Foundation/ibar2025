@@ -24,8 +24,8 @@ Views are my own. GSAI is fairly new and has lots of authors with internal disag
 = What is Guaranteed Safe AI
 
 Family of research agendas / AI safety strategies involving:
-- *Proof certificates* over model outputs, not internals.
-- *World models* and simulations therein.
+- *Proof certificates* over model outputs, not internals. #pause (Moreso what I work on)
+- *World models* and simulations therein. (Moreso the davidad/ARIA side of the pond)
 
 == Proof certificates over model outputs, not internals
 - There was some work trying to combine proof certs with mechinterp (Gross et al 2024), but it's not cruxy for GSAI.
@@ -35,10 +35,20 @@ Family of research agendas / AI safety strategies involving:
 - We would like that code to be formally verifiable
 
 == Proof certs over model outputs: example
-TODO
+Imagine Anthropic asks Claude to write a *secure cloud OS kernel*. #pause In addition to synthesizing the *implementation*, Claude should also synthesize *proofs* that the implementation is _correct_.
+\ \ #pause
+$P {c} Q <-> forall (s s': "State"), P(s) -> "exec"(c,s) = s' -> Q(s')$
+#pause Predicate $P$ is a _precondition_ and predicate $Q$ is a _postcondition_. #pause Together, they form a *specification* for program $c$.
 
 == World models and simulations therein
-TODO
+To evaluate how an *output* _effects_ the world, you could *simulate* the world. #pause One form of *probabilistic proof cert* could be a set of trajectories in a simulation with the observation that the world turns out "bad" in bounded percentage of them.
+\ \ #pause #image("images/expectedvalue.png") (davidad 2024)
+
+== World models and simulations: example
+Consider the stochastic heat equation: $frac(partial u(t,x), partial t) = alpha nabla^2 u(t,x) + sigma xi(t,x)$ #pause\ \
+$P_{>=p}[F^{<=t} (|u(t,x) - u_"eq"| < delta)]$: "The probability that temperature reaches near-equilibrium within time $t$ is at least $p$" \ \
+
+This is a spec in _continuous stochastic logic_, and you can get certs about a system with model checking.
 
 = Assumptions
 - *Boxing/containment*: probably doesn't work with arbitrarily unboxing schemers
@@ -49,7 +59,7 @@ TODO
 #pause
 - The aim is to get us through _some_ stages of AGI (say, 25% of acute risk period) and hopefully our successors at that point will bootstrap it into solutions that work for arbitrary superintelligences
 #pause
-- But even formal methods would leave side channel attacks open for an ASI to exploit
+- But even formal methods would leave side channel attacks open for a scheming ASI to exploit
 
 == Swiss cheese (defense in depth)
 #image("images/swisscheese.png", height: 75%)
@@ -155,7 +165,7 @@ It's a live hypothesis, the project isn't super far along yet.
 #pause
 - Formal verification
 #pause
-- Programming language theory (including probabilistic semantics, information theory)
+- Programming language theory (including probabilistic semantics)
 #pause
 - ML/LLM stuff is mostly from a black box perspective. Lots of scaffolds.
 
